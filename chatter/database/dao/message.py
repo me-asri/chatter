@@ -1,0 +1,29 @@
+from sqlalchemy.orm import Session
+
+from chatter.database.entity import MessageEntity
+from chatter.model.message import MessageCreate
+from chatter.model.user import User
+from chatter.exception.message import NoSuchMessageException
+
+
+class MessageDAO:
+    def __init__(self, session: Session) -> None:
+        self.session = session
+
+    def get_message(self, message_id: int) -> MessageEntity:
+        message = self.session.query(MessageEntity).filter(
+            MessageEntity.id == message_id).first()
+        if not message:
+            raise NoSuchMessageException()
+
+        return message
+
+    def create_message(self, message: MessageCreate, sender: User) -> MessageEntity:
+        db_message = MessageEntity(
+            text=message.text, sender_id=sender.id, chatroom_id=message.chatroom_id)
+
+        self.session.add(db_message)
+        self.session.commit()
+        self.session.refresh(db_message)
+
+        return db_message
