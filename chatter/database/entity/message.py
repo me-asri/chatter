@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, func
 from sqlalchemy.orm import relationship
 
 from chatter.database.base import BaseEntity
@@ -9,8 +9,7 @@ class MessageEntity(BaseEntity):
 
     id = Column(Integer, primary_key=True)
     text = Column(String)
+    date = Column(DateTime, server_default=func.now())
     sender_id = Column(Integer, ForeignKey('user.id'))
-    chatroom_id = Column(Integer, ForeignKey('chatroom.id'))
 
     sender = relationship('UserEntity', back_populates='messages')
-    chatroom = relationship('ChatroomEntity', back_populates='messages')

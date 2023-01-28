@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 
 class MessageBase(BaseModel):
@@ -6,18 +7,13 @@ class MessageBase(BaseModel):
 
 
 class MessageCreate(MessageBase):
-    chatroom_id: int
+    pass
 
 
 class Message(MessageCreate):
     id: int
-
     sender_id: int
+    date: datetime
 
     class Config:
         orm_mode = True
-
-
-# from chatter.model.user import User  # nopep8
-# from chatter.model.chatroom import Chatroom  # nopep8
-# Message.update_forward_refs()

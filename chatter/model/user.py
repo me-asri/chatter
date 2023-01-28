@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field
 
 class UserBase(BaseModel):
     username: str = Field(..., example='hikaru')
-    full_name: str = Field(None, example='Hikaru Azai')
 
 
 class UserCreate(UserBase):

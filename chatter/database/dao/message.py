@@ -20,7 +20,7 @@ class MessageDAO:
 
     def create_message(self, message: MessageCreate, sender: User) -> MessageEntity:
         db_message = MessageEntity(
-            text=message.text, sender_id=sender.id, chatroom_id=message.chatroom_id)
+            text=message.text, sender_id=sender.id)
 
         self.session.add(db_message)
         self.session.commit()
