@@ -40,6 +40,28 @@ class UserCreate(UserBase):
         return value
 
 
+class UserUpdate(BaseModel):
+    name: str = Field(None, example='Hikaru Azai')
+    old_password: str = Field(None, example='password')
+    new_password: str = Field(None, example='new password')
+
+    @validator('name')
+    @classmethod
+    def validate_name(cls, value: str) -> str:
+        name = re.sub(r'\s+', ' ', value)
+
+        if len(name) > 30:
+            raise ValueError('Name is too long')
+        return name
+
+    @validator('old_password', 'new_password')
+    @classmethod
+    def validate_password(cls, value: str) -> str:
+        if len(value) < 8:
+            raise ValueError('Password too short')
+        return value
+
+
 class User(UserBase):
     id: int
 

@@ -14,7 +14,7 @@ class NoSuchUserException(UserException):
 
 
 class UsernameAlreadyTakenException(UserException):
-    def __init__(self, detail: str = 'Username already exists') -> None:
+    def __init__(self, detail: str = 'Username already taken') -> None:
         super().__init__(status.HTTP_400_BAD_REQUEST, detail)
 
 

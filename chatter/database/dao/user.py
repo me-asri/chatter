@@ -1,10 +1,13 @@
+from typing import cast
+
+from sqlalchemy import Column
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
 from chatter.database.entity import UserEntity
-from chatter.model.user import UserCreate
-from chatter.dependency.auth import hash_password
-from chatter.exception.user import NoSuchUserException, UsernameAlreadyTakenException
+from chatter.model.user import UserCreate, UserUpdate
+from chatter.dependency.auth import hash_password, verify_password
+from chatter.exception.user import NoSuchUserException, UsernameAlreadyTakenException, UserAuthenticationException
 
 
 class UserDAO:
@@ -44,3 +47,21 @@ class UserDAO:
         self.session.refresh(db_user)
 
         return db_user
+
+    def update_user(self, user_id: int, info: UserUpdate) -> UserEntity:
+        user = self.get_user(user_id)
+
+        if info.new_password:
+            if verify_password(info.old_password, cast(str, user.password_hash)):
+                user.password_hash = cast(
+                    Column, hash_password(info.new_password))
+            else:
+                raise UserAuthenticationException('Incorrect password')
+
+        if info.name:
+            user.name = cast(Column, info.name)
+
+        self.session.commit()
+        self.session.refresh(user)
+
+        return user

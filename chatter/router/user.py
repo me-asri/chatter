@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
 from chatter.tag import Tag
-from chatter.model.user import User, UserCreate
+from chatter.model.user import User, UserCreate, UserUpdate
 from chatter.dependency.auth import create_access_token, verify_password
 from chatter.dependency.user import get_current_user, get_user_dao
 from chatter.database.dao import UserDAO
@@ -34,6 +34,15 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), dao: UserDAO = Depen
 )
 def create_user(user: UserCreate, dao: UserDAO = Depends(get_user_dao)) -> User:
     return dao.create_user(user)
+
+
+@router.put(
+    '/',
+    summary='Update user information',
+    response_model=User
+)
+def update_user(info: UserUpdate, user: User = Depends(get_current_user), dao: UserDAO = Depends(get_user_dao)):
+    return dao.update_user(user.id, info)
 
 
 @router.get(
