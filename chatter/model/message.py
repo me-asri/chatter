@@ -1,5 +1,8 @@
-from pydantic import BaseModel, Field
 from datetime import datetime
+
+from pydantic import BaseModel, Field
+
+from chatter.model.user import User
 
 
 class MessageBase(BaseModel):
@@ -12,8 +15,8 @@ class MessageCreate(MessageBase):
 
 class Message(MessageCreate):
     id: int
-    sender_id: int
     date: datetime
+    sender: User
 
     class Config:
         orm_mode = True

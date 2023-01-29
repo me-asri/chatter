@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.orm import Session
 
 from chatter.database.entity import MessageEntity
@@ -27,3 +29,9 @@ class MessageDAO:
         self.session.refresh(db_message)
 
         return db_message
+
+    def get_messages(self, limit: int = 10, since: int = -1) -> List[MessageEntity]:
+        return self.session.query(MessageEntity).order_by(MessageEntity.id.desc()).filter(MessageEntity.id > since).limit(limit).all()[::-1]
+
+    def get_messages_until(self, until: int, limit: int = 10) -> List[MessageEntity]:
+        return self.session.query(MessageEntity).order_by(MessageEntity.id.desc()).filter(MessageEntity.id < until).limit(limit).all()[::-1]

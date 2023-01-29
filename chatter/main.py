@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from chatter.config import Config
 from chatter.router import user, message
@@ -12,6 +13,14 @@ app = FastAPI(
     openapi_url=f'{Config.API_PREFIX}/openapi.json',
     docs_url=f'{Config.API_PREFIX}/docs',
     redoc_url=None
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=Config.ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(user.router, prefix=Config.API_PREFIX)
