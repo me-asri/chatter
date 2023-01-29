@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import timezone
 
 from pydantic import BaseModel, Field
 
@@ -20,3 +21,8 @@ class Message(MessageCreate):
 
     class Config:
         orm_mode = True
+
+        json_encoders = {
+            datetime: lambda date: date.replace(
+                tzinfo=timezone.utc).timestamp()
+        }
