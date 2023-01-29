@@ -9,6 +9,7 @@ class UserEntity(BaseEntity):
 
     id = Column(Integer, primary_key=True)
     username = Column(String, index=True, unique=True, nullable=False)
+    name = Column(String)
     password_hash = Column(String)
 
     messages = relationship('MessageEntity', back_populates='sender')

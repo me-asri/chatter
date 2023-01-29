@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class UserBase(BaseModel):
+    name: str = Field(None, example='Hikaru Kawasaki')
     username: str = Field(..., example='hikaru')
 
 

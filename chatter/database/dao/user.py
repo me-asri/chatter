@@ -30,7 +30,8 @@ class UserDAO:
     def create_user(self, user: UserCreate) -> UserEntity:
         pass_hash = hash_password(user.password)
 
-        db_user = UserEntity(username=user.username, password_hash=pass_hash)
+        db_user = UserEntity(username=user.username,
+                             name=user.name, password_hash=pass_hash)
 
         self.session.add(db_user)
 
