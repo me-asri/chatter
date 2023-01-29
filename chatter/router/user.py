@@ -6,7 +6,7 @@ from chatter.model.user import User, UserCreate
 from chatter.dependency.auth import create_access_token, verify_password
 from chatter.dependency.user import get_current_user, get_user_dao
 from chatter.database.dao import UserDAO
-from chatter.exception.user import UserAuthenticationException
+from chatter.exception.user import NoSuchUserException, UserAuthenticationException
 
 router = APIRouter(
     prefix='/user',
@@ -16,8 +16,9 @@ router = APIRouter(
 
 @router.post('/token')
 def login(form_data: OAuth2PasswordRequestForm = Depends(), dao: UserDAO = Depends(get_user_dao)):
-    user = dao.get_user_by_username(form_data.username)
-    if not user:
+    try:
+        user = dao.get_user_by_username(form_data.username)
+    except NoSuchUserException:
         raise UserAuthenticationException()
 
     if not verify_password(form_data.password, str(user.password_hash)):
