@@ -10,6 +10,9 @@ class UserBase(BaseModel):
     @validator('name')
     @classmethod
     def validate_name(cls, value: str) -> str:
+        if not value:
+            return value
+
         name = re.sub(r'\s+', ' ', value)
 
         if len(name) > 30:
@@ -48,6 +51,9 @@ class UserUpdate(BaseModel):
     @validator('name')
     @classmethod
     def validate_name(cls, value: str) -> str:
+        if not value:
+            return value
+
         name = re.sub(r'\s+', ' ', value)
 
         if len(name) > 30:
@@ -57,6 +63,9 @@ class UserUpdate(BaseModel):
     @validator('old_password', 'new_password')
     @classmethod
     def validate_password(cls, value: str) -> str:
+        if not value:
+            return value
+
         if len(value) < 8:
             raise ValueError('Password too short')
         return value
