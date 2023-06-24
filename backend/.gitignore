@@ -1,0 +1,4 @@
+/.venv
+/chatterdb.sqlite3
+
+__pycache__/
