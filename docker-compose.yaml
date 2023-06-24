@@ -3,16 +3,19 @@ version: '3.8'
 services:
   backend:
     build: ./backend
-    ports:
-      - 8000:8000
     environment:
       - CHATTER_SECRET=${CHATTER_SECRET}
       - CHATTER_DB_DIR=/app/db
+    ports:
+      - 8000:8000
     volumes:
       - database:/app/db
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        CHATTER_API_URL: http://127.0.0.1:8000/api
     ports:
       - 8080:8080
 

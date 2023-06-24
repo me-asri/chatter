@@ -2,7 +2,10 @@ import axios from "axios"
 
 import { store } from "./store"
 
-const API_URL = 'http://127.0.0.1:8000/api'
+const API_URL = import.meta.env.CHATTER_API_URL
+if (!API_URL) {
+  throw new Error("API URL not defined!")
+}
 
 let authData = {
   token: ''
