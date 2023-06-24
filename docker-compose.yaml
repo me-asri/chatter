@@ -7,8 +7,14 @@ services:
       - 8000:8000
     environment:
       - CHATTER_SECRET=${CHATTER_SECRET}
+      - CHATTER_DB_DIR=/app/db
+    volumes:
+      - database:/app/db
 
   frontend:
     build: ./frontend
     ports:
       - 8080:8080
+
+volumes:
+  database:
