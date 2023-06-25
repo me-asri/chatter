@@ -1,9 +1,5 @@
 # Chatter
-__Chatter__ is a simple chatroom webapp written using VueJS for frontend and FastAPI for backend. 
-
-## Requirements
- * Docker
- * Docker Compose
+__Chatter__ is a simple chatroom web app written using VueJS for frontend and FastAPI for backend. 
 
 ## Screenshots
 <details>
@@ -30,29 +26,38 @@ __Chatter__ is a simple chatroom webapp written using VueJS for frontend and Fas
 </p>
 </details>
 
+## Requirements
+### For deployment:
+ * Docker
+ * Docker Compose
+### For development:
+ * NodeJS >= 18
+ * npm
+ * Python >= 3.11
+
 ## Installation
 __Chatter__ makes use of Docker Compose to setup and bring up both the backend and frontend servers.
 
-### Generating Secret
+### Set secret
 __Chatter__ requires a 32 byte secret in hex format to be defined in the `CHATTER_SECRET` environment variable.\
 The `.env` file is used for storing the secret.
 ```
 echo "CHATTER_SECRET=$(openssl rand -hex 32)" > .env
 ```
 
-### Setting Public API URL
+### Set public API URL
 `CHATTER_API_URL` build arg is used for storing the public URL for the backend.\
 Just like `CHATTER_SECRET` the `.env` file is used for storing the public API URL.
 ```
 echo "CHATTER_API_URL=http://127.0.0.1:8000/api" >> .env
 ``` 
 
-### Starting Chatter
+### Starting Chatter server
 ```
 docker compose up
 ```
 
-### Stopping Chatter
+### Stopping Chatter server
 ```
 docker compose down
 ```
