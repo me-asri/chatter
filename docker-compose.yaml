@@ -15,7 +15,7 @@ services:
     build:
       context: ./frontend
       args:
-        CHATTER_API_URL: http://127.0.0.1:8000/api
+        CHATTER_API_URL: ${CHATTER_API_URL}
     ports:
       - 8080:8080
 
